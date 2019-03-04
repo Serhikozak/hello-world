@@ -45,17 +45,37 @@ sudo firewall-cmd --reload
 
 #download and install LMS moodle
 sudo yum -y install wget
-sudo wget https://download.moodle.org/download.php/stable36/moodle-latest-36.tgz 
-sudo tar -zxvf moodle-latest-36.tgz -C/var/www/html
+wget https://download.moodle.org/download.php/direct/stable36/moodle-latest-36.tgz 
+sudo tar -xzvf moodle-latest-36.tgz -C/var/www/html/
+sudo chown -R apache:apache /var/www/html
 
-sudo chown -R apache:apache /var/www/html/moodle/
-sudo mkdir /var/moodle
-sudo mkdir /var/moodle/data 
-sudo chown -r apache:apache /var/moodle
-sudo chmod -r 755/var/moodle
-sudo cd /var/www/html/moodle/
+#Setup a dedicated data directory for Moodle
+#sudo mkdir /var/www/moodledata
+#sudo chown -R apache:apache /var/www/moodledata
+#sudo chmod -R 755/var/www/moodledata
+#sudo cd /var/www/html/moodle/
 
+#Setup a virtual host for Moodle
+sudo yum -y install nano
+#sudo systemctl stop httpd
+#cd /etc/httpd/conf.d/
+sudo nano /etc/httpd/conf.d/moodle.conf
 
+ cat <<EOF | sudo tee -a /etc/httpd/conf.d/moodle.conf
+<VirtualHost *:80>
+ServerAdmin admin@moodle.com
+DocumentRoot /var/www/html/moodle
+ServerName moodle.com
+ServerAlias www.moodle.com
+Alias /moodle "/var/www/html/moodle/"
+<Directory /var/www/html/moodle/>
+Options FollowSymLinks
+AllowOverride All
+</Directory>
+ErrorLog /var/log/httpd/moodle-error_log
+CustomLog /var/log/httpd/moodle-access_log common
+</VirtualHost>
+EOF
 
-
+sudo systemctl restart httpd
 
