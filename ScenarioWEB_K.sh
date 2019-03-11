@@ -15,7 +15,7 @@
   sudo yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
   sudo yum-config-manager --disable remi-php54
   sudo yum-config-manager --enable remi-php73
-  sudo yum -y install php php-mcrypt php-cli php-gd php-curl php-ldap php-zip php-fileinfo php-xml php-intl php-mbstring php-xmlrpc php-soap php-fpm php-mysqlnd php-devel php-pear php-bcmath php-json
+  sudo yum -y install php php-pecl-memcache php-mcrypt php-cli php-gd php-curl php-ldap php-zip php-fileinfo php-xml php-intl php-mbstring php-xmlrpc php-soap php-fpm php-mysqlnd php-devel php-pear php-bcmath php-json
   sudo systemctl restart httpd
 
 echo -e "-- Create  index.html\n"
@@ -27,7 +27,11 @@ cat <<EOF | sudo tee -a /var/www/html/index.html
 </html>
 EOF
 
-  
+cat <<EOF | sudo tee -a /var/www/html/index.php
+<?php
+phpinfo();
+?>
+EOF  
  # Install Moodle 3.2.1
   sudo yum -y install wget
   wget https://download.moodle.org/download.php/direct/stable36/moodle-latest-36.tgz
@@ -56,6 +60,7 @@ EOF
     --adminpass=Admin1 \
     --non-interactive \
     --agree-license
+
   sudo chown apache:apache /var/www/html/moodle/config.php
   sudo systemctl restart httpd
 

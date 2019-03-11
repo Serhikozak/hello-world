@@ -15,7 +15,7 @@
   sudo yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
   sudo yum-config-manager --disable remi-php54
   sudo yum-config-manager --enable remi-php73
-  sudo yum -y install php php-mcrypt php-cli php-gd php-curl php-ldap php-zip php-fileinfo php-xml php-intl php-mbstring php-xmlrpc php-soap php-fpm php-mysqlnd php-devel php-pear php-bcmath php-json
+  sudo yum -y install php php-pecl-memcache php-mcrypt php-cli php-gd php-curl php-ldap php-zip php-fileinfo php-xml php-intl php-mbstring php-xmlrpc php-soap php-fpm php-mysqlnd php-devel php-pear php-bcmath php-json
   sudo systemctl restart httpd
 
 echo -e "-- Create  index.html\n"

@@ -5,7 +5,14 @@
  DB_Pass="Radikalfire"
  
   sudo yum -y update
-    
+  #Install Memcached
+  sudo yum -y install memcached
+  sudo systemctl start memcached.service
+  sudo systemctl enable memcached.service
+
+  sudo sed -i -e 's/OPTIONS=""/OPTIONS="192.168.56.110 -U 0"/g' /etc/sysconfig/memcached  
+  sudo systemctl restart memcached.service
+     
   #Install MariaDB  
   sudo yum -y install mariadb-server mariadb
   sudo systemctl start mariadb
