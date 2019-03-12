@@ -68,9 +68,13 @@ echo -e "-- Validating HAProxy configuration\n"
 haproxy -f /etc/haproxy/haproxy.cfg -c
  sudo systemctl restart haproxy
 
+#Install Memcached
+  sudo yum -y install memcached
+  sudo systemctl start memcached
+  sudo systemctl enable memcached
 
-
- 
+sudo firewall-cmd --permanent --zone=public --add-port=11211/tcp
+sudo firewall-cmd --reload 
   #sudo firewall-cmd --permanent --zone=public --add-service=http
   #sudo firewall-cmd --permanent --zone=public --add-port=8181/tcp
   #sudo firewall-cmd --reload
