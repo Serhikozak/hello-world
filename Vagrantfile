@@ -1,54 +1,52 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
+
 Vagrant.configure("2") do |config|
   
- 
-  
-  config.vm.define "db" do |db|
-    db.vm.box = "centos/7"
-    db.vm.network "private_network", ip: "192.168.56.160"
-    #db.vm.provision "shell", path: "Scenario4RM.sh"
-  end
- 
-  #config.vm.define "web_k" do |web_k|
-    #web_k.vm.box = "centos/7"
-    #web_k.vm.network "private_network", ip: "192.168.56.170"
-    #webk.vm.provision "shell", path: "ScenarioHAP4.sh"
-  #end
-
-  #config.vm.define "web_s" do |web_s|
-    #web_s.vm.box = "centos/7"
-    #web_s.vm.network "private_network", ip: "192.168.56.180"
-    #webs.vm.provision "shell", path: "Scenario4RM.sh"
-  #end
-  
-  #config.vm.define "lb" do |lb|
-    #lb.vm.box = "centos/7"
-    #lb.vm.network "private_network", ip: "192.168.56.150"
-    #lb.vm.provision "shell", path: "ScenarioHAP4.sh"
-  #end
-
-  config.vm.define "ansible" do |ansible|
-    ansible.vm.box = "centos/7"
-    ansible.vm.network "private_network", ip: "192.168.56.190"
-    ansible.vm.provision "shell", path: "Ansible.sh"
-  end
-  
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
+   # config.vm.provider "virtualbox" do |vb|
+    #   vb.gui = true
+    #   # Customize the amount of memory on the VM:
   #   vb.memory = "1024"
-  # end
-  #
-    # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
-end
+  # end    
+   
+   
+   config.vm.define "mdb" do |mdb|
+    mdb.vm.box = "centos/7"
+    mdb.vm.network "forwarded_port", guest: 80, host: 8080 
+    mdb.vm.network "private_network", ip: "192.168.56.110"
+    mdb.vm.provision "shell", path: 'ScenarioDB.sh'
+   end
+    
+   config.vm.define "webk" do |webk|
+    webk.vm.box = "centos/7"
+    webk.vm.network "forwarded_port", guest: 80, host: 8081 
+    webk.vm.network "private_network", ip: "192.168.56.111"
+    webk.vm.provision "shell", path: 'ScenarioWEB_K.sh'
+   end
+
+   config.vm.define "webs" do |webs|
+    webs.vm.box = "centos/7"
+    webs.vm.network "forwarded_port", guest: 80, host: 8082 
+    webs.vm.network "private_network", ip: "192.168.56.112"
+    webs.vm.provision "shell", path: 'ScenarioWEB_S.sh'
+   end
+  
+   config.vm.define "hapro" do |hapro|
+    hapro.vm.box = "centos/7"
+    hapro.vm.network "forwarded_port", guest: 80, host: 8083 
+    hapro.vm.network "private_network", ip: "192.168.56.113"
+    hapro.vm.provision "shell", path: 'ScenarioHAPr.sh'
+   end
+ 
+
+
+
+
+ 
+ 
+ 
+ end
+
+
+
