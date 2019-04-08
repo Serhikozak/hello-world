@@ -1,0 +1,19 @@
+---
+- name: Java
+  hosts: web
+  tasks:
+  - name: Download Java JRE
+    get_url:
+     url: https://d1f2yzg3dx5xke.cloudfront.net/java-1.8.0-amazon-corretto-1.8.0_202.b08-1.amzn2.x86_64.rpm
+     #dest: /opt
+         #headers: 'Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie'
+  
+      
+  - name: install Java JRE rpm from a local file
+    yum:
+        name: ~/java-1.8.0-amazon-corretto-1.8.0_202.b08-1.amzn2.x86_64.rpm
+        state: present
+
+  
+
+...
