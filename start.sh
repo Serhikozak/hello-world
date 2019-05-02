@@ -15,6 +15,10 @@ cat <<EOF | sudo tee -a /etc/ansible/hosts
 localhost  ansible_host=localhost ansible_user=vagrant  ansible_connection=local
 EOF
 
+mkdir /tmp/nodejs
+cd /vagrant
+
+sudo ansible-playbook main.yml
 #sudo rm /etc/ansible/ansible.cfg
 #sudo chmod 400 ~/.ssh/*.pem
 

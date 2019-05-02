@@ -132,30 +132,30 @@
     loop_var: plugin_name
   tags: [jenkins]
 
-- name: Configure jenkins plugins
-  copy:
-    src: "{{ item }}"
-    dest: /var/lib/jenkins
-    owner: jenkins
-    group: jenkins
-    mode: 0644
-  with_items:
-    - ./files/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
-    - ./files/hudson.plugins.sonar.SonarGlobalConfiguration.xml
-    - ./files/hudson.plugins.sonar.SonarRunnerInstallation.xml
+# - name: Configure jenkins plugins
+#   copy:
+#     src: "{{ item }}"
+#     dest: /var/lib/jenkins
+#     owner: jenkins
+#     group: jenkins
+#     mode: 0644
+#   with_items:
+#     - ./files/jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin.xml
+#     - ./files/hudson.plugins.sonar.SonarGlobalConfiguration.xml
+#     - ./files/hudson.plugins.sonar.SonarRunnerInstallation.xml
     
-- name: Configure jenkins plugins
-  template:
-    src: ./templates/hudson.plugins.git.GitTool.xml.j2
-    dest: /var/lib/jenkins/hudson.plugins.git.GitTool.xml
+# - name: Configure jenkins plugins
+#   template:
+#     src: ./templates/hudson.plugins.git.GitTool.xml.j2
+#     dest: /var/lib/jenkins/hudson.plugins.git.GitTool.xml
 
-- name: Create job_backend from xml-file
-  jenkins_job:
-    config: "{{ lookup('file', 'files/job_backend.xml') }}"
-    name: job_backend
-    password: "{{ adminpwd.stdout }}" 
-    url: http://localhost:8080
-    user: "admin"
+# - name: Create job_backend from xml-file
+#   jenkins_job:
+#     config: "{{ lookup('file', 'files/job_backend.xml') }}"
+#     name: job_backend
+#     password: "{{ adminpwd.stdout }}" 
+#     url: http://localhost:8080
+#     user: "admin"
 
 
 - name: Download NodeSource repository
@@ -179,29 +179,29 @@
      - yarn
      - '@angular/cli'
 
-- name: Create job_frontend from xml-file
-  jenkins_job:
-    config: "{{ lookup('file', 'files/job_frontend.xml') }}"
-    name: job_frontend
-    password: "{{ adminpwd.stdout }}" 
-    url: http://localhost:8080
-    user: "admin"
+# - name: Create job_frontend from xml-file
+#   jenkins_job:
+#     config: "{{ lookup('file', 'files/job_frontend.xml') }}"
+#     name: job_frontend
+#     password: "{{ adminpwd.stdout }}" 
+#     url: http://localhost:8080
+#     user: "admin"
 
-- name: Restart jenkins
-  shell: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ -auth admin:{{ adminpwd.stdout }} safe-restart"
+# - name: Restart jenkins
+#   shell: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ -auth admin:{{ adminpwd.stdout }} safe-restart"
 
-- name: Wait untils Jenkins web will be available
-  uri:
-    url: "http://{{ jenkins_local }}/login"
-    status_code: 200
-  register: result
-  until: result.status == 200
-  retries: 25
-  delay: 5
+# - name: Wait untils Jenkins web will be available
+#   uri:
+#     url: "http://{{ jenkins_local }}/login"
+#     status_code: 200
+#   register: result
+#   until: result.status == 200
+#   retries: 25
+#   delay: 5
 
-- name: Build job_backend
-  shell: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ -auth admin:{{ adminpwd.stdout }} build job_backend"
+# - name: Build job_backend
+#   shell: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ -auth admin:{{ adminpwd.stdout }} build job_backend"
 
-- name: Build job_frontend
-  shell: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ -auth admin:{{ adminpwd.stdout }} build job_frontend"
+# - name: Build job_frontend
+#   shell: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ -auth admin:{{ adminpwd.stdout }} build job_frontend"
 ...
