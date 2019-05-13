@@ -1,0 +1,11 @@
+### Terraform ###
+# General
+.terraform
+.ssh/
+ansible/.ssh/
+*.json
+terraform.tfstate.backup
+terraform.tfstate
+.terraform.tfstate.lock.info
+demo3
+demo3.pub
