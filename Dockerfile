@@ -1,7 +1,13 @@
 # Pull base image.
-FROM nginx:latest
+FROM amazoncorretto:latest
 
-COPY ./frontend/eSchool ./usr/share/nginx/html/
-COPY ./frontend/nginx.conf ./etc/nginx/nginx.conf
-EXPOSE 80
+RUN \
+# Update
+yum update -y
 
+COPY ./backend/eschool.jar ./app/eschool.jar
+
+COPY ./backend/application.properties ./app/application.properties
+WORKDIR ./app
+EXPOSE 8080
+CMD ["java", "-jar", "eschool.jar", "application.properties"]
